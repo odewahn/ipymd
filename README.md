@@ -1,10 +1,12 @@
 # IPython notebook & Markdown
 
-Combining the best of IPython notebook and Markdown for git-friendly technical book writing.
+**Currently WIP, experimental project, use at your own risks**
 
-**tl; dr**: this **experimental** module replaces the JSON-based `.ipynb` format by Markdown `.md` documents (this is exactly Markdown, not a variant). You loose all metadata and code outputs, but you keep Markdown text and code. This is useful when you write technical documents, blog posts, books, etc.
+Use Markdown `.md` documents instead of `.ipynb` files in the IPython notebook. You keep code input and outputs, but not plots, metadata, or prompt numbers. This is useful when you write technical documents, blog posts, books, etc.
 
-## Rationale
+![image](https://cloud.githubusercontent.com/assets/1942359/5570181/f656a484-8f7d-11e4-8ec2-558d022b13d3.png)
+
+## Why?
 
 ### IPython notebook
 
@@ -14,7 +16,7 @@ Pros:
 
 Cons:
 
-* nbformat not really git-friendly (JSON, contains the code output by default)
+* nbformat not really git-friendly (JSON, contains the outputs by default)
 * cannot easily edit in a text editor
 
 
@@ -35,15 +37,32 @@ Cons:
 * Write contents (text and code) in a Markdown `document.md`
     * either in the notebook UI, as usual, with Markdown cells and code cells (useful when working on code)
     * or in a text editor, using Markdown (useful when working on text)
-* Only the Markdown cells and input code cells are saved in the file
+* Only the Markdown cells and code cells (input + text outputs for now) are saved in the file
 * Collaborators can work on the Markdown document using GitHub (branches, pull requests...), they don't need IPython. They can do everything from the GitHub web interface.
 
+### Details
 
-## CAVEATS
+* A notebook code cell = Markdown code block with explicit `python` syntax highlighting (i.e. ```` ```python ````)
+* If `add_prompt=True` (default in `MarkdownContentsManager`, but not in `AtlasContentsManager`), intput and text outputs are converted to:
+
+  ```
+  > print("Hello world")
+  Hello world
+  ```
+
+* `md => nb => md` and `nb => md => nb` are not exactly the identity function:
+
+    * `*italics*` is replaced by `_italics_`
+    * extra line breaks are discarded
+    * text output and text stdout ==> combined text output (stdout lines first, output lines last)
+
+
+## Caveats
 
 **WARNING**: this is an experimental module, there is a risk for data loss, so be careful!
 
-* DO NOT RENAME YOUR .MD NOTEBOOKS IN THE NOTEBOOK UI
+* Renaming doesn't work yet (issue #4)
+* New notebook doesn't work yet (issue #5)
 
 
 ## Installation
