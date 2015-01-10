@@ -2,18 +2,6 @@ FROM ipython/scipystack
 
 RUN pip install mistune
 
-# Install from source based on #7278
-RUN mkdir -p /tmp/minrk
-WORKDIR /tmp/minrk
-RUN git clone https://github.com/minrk/ipython.git
-WORKDIR /tmp/minrk/ipython
-RUN git checkout -b nb-file-ext
-RUN git pull origin nb-file-ext
-RUN git submodule init
-RUN git submodule update
-RUN python3 setup.py install
-
-
 # Install ipymd on the image and add it to PYTHONPATH
 RUN mkdir -p /usr/src
 ADD . /usr/src
